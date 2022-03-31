@@ -9,14 +9,13 @@ def get_message_or_abort(chat_id):
     chat = session.query(Messages).filter(Messages.chat_id == chat_id)
     if not chat:
         abort(404, message=f"Message {chat_id} not found")
-    print(chat)
     return chat, session
 
 
 class MessageResources(Resource):
     def get(self, chat_id):
         chat, session = get_message_or_abort(chat_id)
-        return jsonify({'messsage': [item.to_dict(
+        return jsonify({'messages': [item.to_dict(
             only=('id', 'message')) for item in chat]})
 
     def delete(self, chat_id):
