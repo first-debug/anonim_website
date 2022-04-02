@@ -18,8 +18,8 @@ class MessageResources(Resource):
         return jsonify({'messages': [item.to_dict(
             only=('id', 'message')) for item in chat]})
 
-    def delete(self, chat_id):
-        chat, session = get_message_or_abort(chat_id)
+    def delete(self, message_id):
+        chat, session = get_message_or_abort(message_id)
         session.delete(chat)
         session.commit()
         return jsonify({'success': 'OK'})

@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Чат Инкогнито</title>
-</head>
-<body>
-    {% for item in list_msg %}
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Сообщения</h2>
+{% for item in list_msg %}
         <div class="message">{{ item }}</div>
     {% endfor %}
-</body>
-</html>
+{% endblock %}

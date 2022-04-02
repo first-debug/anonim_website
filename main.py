@@ -1,18 +1,29 @@
-from flask import Flask, render_template, make_response, jsonify
+from flask import Flask, render_template, make_response, jsonify, redirect
 from random import sample
 from flask_restful import Api
+from forms.main_form import MainForm
 from data.chat_resources import MessageResources
 from data.chats import Chats
 from data import db_session
 from requests import get
 
 app = Flask(__name__)
+app.secret_key = 'anonim'
 api = Api(app)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    form = MainForm()
+    if form.validate_on_submit():
+        link = random_link()
+        session = db_session.create_session()
+        chat = Chats()
+        chat.link = link
+        session.add(chat)
+        session.commit()
+        return redirect(f'/chats/{link}')
+    return render_template('index.html', form=form, title='Создание чата')
 
 
 @app.errorhandler(404)
@@ -28,7 +39,21 @@ def chats(link):
     list_msg = []
     for elem in messages['messages']:
         list_msg.append(elem['message'])
-    return render_template('chat.html', list_msg=list_msg)
+    return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито')
+
+
+def random_link():
+    session = db_session.create_session()
+    chat = session.query(Chats).all()
+    s = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
+    while True:
+        k = 0
+        link = sample(s, 8)
+        for elem in chat:
+            if elem.link == link:
+                k += 1
+        if k == 0:
+            return ''.join(link)
 
 
 def main():
