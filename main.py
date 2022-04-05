@@ -1,6 +1,12 @@
+from pprint import pprint
+from time import sleep
+
 from flask import Flask, render_template, make_response, jsonify, redirect
 from random import sample
 from flask_restful import Api
+
+from data.messages import Messages
+from forms.chat_form import ChatForm
 from forms.main_form import MainForm
 from data.chat_resources import MessageResources
 from data.chats import Chats
@@ -10,6 +16,8 @@ from requests import get
 app = Flask(__name__)
 app.secret_key = 'anonim'
 api = Api(app)
+db_session.global_init("db/chats.db")
+session = db_session.create_session()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -17,7 +25,6 @@ def index():
     form = MainForm()
     if form.validate_on_submit():
         link = random_link()
-        session = db_session.create_session()
         chat = Chats()
         chat.link = link
         session.add(chat)
@@ -33,9 +40,33 @@ def not_found(error):
 
 @app.route('/chats/<link>')
 def chats(link):
-    session = db_session.create_session()
+    form = ChatForm()
     chat = session.query(Chats).filter(Chats.link == link)
-    messages = get(f'http://127.0.0.1:5000/api/messages/{str(chat[0].id)}').json()
+    if form.validate_on_submit():
+        message = Messages(
+            id=(int(session.query(Messages).filter(id).last()) + 1),
+            message=form.text.data,
+            chat_id=str(chat[0].id)
+        )
+        session.add(message)
+        session.commit()
+        chat = session.query(Chats).filter(Chats.link == link)
+        messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat[0].id)}').text
+        print('HOLO')
+        list_msg = []
+        for elem in messages['messages']:
+            list_msg.append(elem['message'])
+        return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form)
+    messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat[0].id)}').json()
+    list_msg = []
+    for elem in messages['messages']:
+        list_msg.append(elem['message'])
+    return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form)
+
+
+def load_chat(link):
+    chat = session.query(Chats).filter(Chats.link == link)
+    messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat[0].id)}').json()
     list_msg = []
     for elem in messages['messages']:
         list_msg.append(elem['message'])
@@ -43,7 +74,6 @@ def chats(link):
 
 
 def random_link():
-    session = db_session.create_session()
     chat = session.query(Chats).all()
     s = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
     while True:
@@ -57,9 +87,8 @@ def random_link():
 
 
 def main():
-    db_session.global_init("db/chats.db")
     api.add_resource(MessageResources, '/api/messages/<int:chat_id>')
-    app.run()
+    app.run(host='127.0.0.1', port=8080, debug=True)
 
 
 if __name__ == '__main__':
