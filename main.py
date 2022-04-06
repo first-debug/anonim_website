@@ -38,39 +38,21 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
-@app.route('/chats/<link>')
+@app.route('/chats/<link>', methods=['GET', 'POST'])
 def chats(link):
     form = ChatForm()
-    chat = session.query(Chats).filter(Chats.link == link)
+    chat_id = session.query(Chats).filter(Chats.link == link)[0].id
+    messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat_id)}').json()['messages']
+    list_msg = [elem['message'] for elem in messages]
     if form.validate_on_submit():
-        message = Messages(
-            id=(int(session.query(Messages).filter(id).last()) + 1),
-            message=form.text.data,
-            chat_id=str(chat[0].id)
-        )
-        session.add(message)
+        message_model = Messages()
+        message_model.message = form.text.data
+        message_model.chat_id = chat_id
+        session.add(message_model)
         session.commit()
-        chat = session.query(Chats).filter(Chats.link == link)
-        messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat[0].id)}').text
-        print('HOLO')
-        list_msg = []
-        for elem in messages['messages']:
-            list_msg.append(elem['message'])
-        return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form)
-    messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat[0].id)}').json()
-    list_msg = []
-    for elem in messages['messages']:
-        list_msg.append(elem['message'])
+        messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat_id)}').json()['messages']
+        list_msg = [elem['message'] for elem in messages]
     return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form)
-
-
-def load_chat(link):
-    chat = session.query(Chats).filter(Chats.link == link)
-    messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat[0].id)}').json()
-    list_msg = []
-    for elem in messages['messages']:
-        list_msg.append(elem['message'])
-    return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито')
 
 
 def random_link():

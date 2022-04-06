@@ -7,12 +7,13 @@
             <h4 class="message rounded bg-info w-25 container" style="margin-top: 8px;padding-bottom: 5px;margin-left: 5px">{{ item }}</h4>
         {% endfor %}
     </div>
-    <form class="mb-3 " id="text_message">
-         {% for field in form %}
-            <div class="form-group">
-                {{if }}
-                    {{ field(class="form-control border border-2 rounded w-75") }}
-            </div>
-         {% endfor %}
+    <form class="mb-3 " id="text_message" action="" method="post">
+            <p>
+                {{ form.text(class="form-control border border-2 rounded w-75") }}
+            </p>
+            <p>
+                {{ form.hidden_tag() }}
+                {{ form.submit(type="submit", class="btn btn-primary border border-2 rounded w-75") }}
+            </p>
     </form>
 {% endblock %}
