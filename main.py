@@ -1,7 +1,4 @@
-from pprint import pprint
-from time import sleep
-
-from flask import Flask, render_template, make_response, jsonify, redirect
+from flask import Flask, render_template, make_response, jsonify, redirect, request
 from random import sample
 from flask_restful import Api
 
@@ -42,19 +39,19 @@ def not_found(error):
 def chats(link):
     form = ChatForm()
     chat_id = session.query(Chats).filter(Chats.link == link)[0].id
-    messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat_id)}').json()['messages']
-    list_msg = [elem['message'] for elem in messages]
+    list_msg = get_messages(link, chat_id)
     if form.validate_on_submit():
         message_model = Messages()
         message_model.message = form.text.data
         message_model.chat_id = chat_id
         session.add(message_model)
         session.commit()
-        messages = get(f'http://127.0.0.1:8080/api/messages/{str(chat_id)}').json()['messages']
-        list_msg = [elem['message'] for elem in messages]
+        form.text.data = ''
+        return redirect(f'/chats/{link}')
     return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form)
 
 
+# Функция для создания произвольного чата
 def random_link():
     chat = session.query(Chats).all()
     s = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
@@ -66,6 +63,11 @@ def random_link():
                 k += 1
         if k == 0:
             return ''.join(link)
+
+
+# Функция для получения сообщений чата
+def get_messages(link, chat_id):
+    return [elem['message'] for elem in get(f'http://127.0.0.1:8080/api/messages/{str(chat_id)}').json()['messages']]
 
 
 def main():
