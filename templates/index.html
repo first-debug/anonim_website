@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="#logo"><img src="/static/css/images/logo.png"></div>
+<h1>Добро пожаловать на сайт для анонимного общения!</h1>
+<h2>Нажми сюда, чтобы начать</h2>
+<center><img src="/static/css/images/arrow_down.gif" width="100 px" height="100 px"></center>
 <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>{{ form.submit(type="submit", class="btn btn-primary position-absolute top-50 start-50 translate-middle") }}</p>

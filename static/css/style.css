@@ -1,1 +1,50 @@
-.message {margin-top: 8px;padding-bottom: 5px;margin-left: 5px}
+body {
+background-image: url(images/fon.jpg)
+}
+
+h1 {
+text-align: center;
+color: purple;
+font: Tahoma;
+background-color: #6600ff;
+margin-left: 100px;
+margin-right: 100px;
+height: 60px;
+border-radius: 10px;
+}
+
+h2 {
+text-align: center;
+color: #6600ff;
+font: Arial;
+margin: 100px;
+}
+
+h4{
+text-align: left;
+}
+
+.logo {
+margin-right: 100px;
+}
+
+.chat_box {
+border-color: purplel;
+margin: 100px;
+text-align: center;
+background-color: #6600ff;
+}
+
+.button_color {
+background-color: purple;
+}
+
+.border_color {
+border-color: purple;
+}
+
+.message {
+margin-top: 8px;
+padding-bottom: 5px;
+margin-left: 5px;
+}
