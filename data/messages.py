@@ -12,3 +12,4 @@ class Messages(SqlAlchemyBase, SerializerMixin):
     message = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     chat_id = sqlalchemy.Column(sqlalchemy.Integer,
                                 sqlalchemy.ForeignKey("chats.id"), nullable=True)
+    type = sqlalchemy.Column(sqlalchemy.String, nullable=True)

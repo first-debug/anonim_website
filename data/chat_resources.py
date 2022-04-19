@@ -2,7 +2,6 @@ from flask_restful import Resource, abort
 from flask import jsonify
 from . import db_session
 from .messages import Messages
-from sqlalchemy import insert
 
 
 def get_message_or_abort(chat_id):
@@ -17,7 +16,7 @@ class MessageResources(Resource):
     def get(self, chat_id):
         chat, session = get_message_or_abort(chat_id)
         return jsonify({'messages': [item.to_dict(
-            only=('id', 'message')) for item in chat]})
+            only=('id', 'message', 'type')) for item in chat]})
 
     def delete(self, message_id):
         chat, session = get_message_or_abort(message_id)

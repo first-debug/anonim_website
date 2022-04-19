@@ -1,4 +1,7 @@
-from flask import Flask, render_template, make_response, jsonify, redirect, request
+import os.path
+from io import BytesIO
+from PIL import Image
+from flask import Flask, render_template, make_response, jsonify, redirect, request, url_for
 from random import sample
 from flask_restful import Api
 
@@ -15,6 +18,7 @@ app.secret_key = 'anonim'
 api = Api(app)
 db_session.global_init("db/chats.db")
 session = db_session.create_session()
+IMG_DIRECTORY = 'static/img/'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -38,17 +42,27 @@ def not_found(error):
 @app.route('/chats/<link>', methods=['GET', 'POST'])
 def chats(link):
     form = ChatForm()
+    message_model = Messages()
     chat_id = session.query(Chats).filter(Chats.link == link)[0].id
-    list_msg = get_messages(link, chat_id)
+    list_msg = get_messages(chat_id)
     if form.validate_on_submit():
-        message_model = Messages()
-        message_model.message = form.text.data
-        message_model.chat_id = chat_id
-        session.add(message_model)
-        session.commit()
-        form.text.data = ''
+        message = form.text.data
+        file = form.pic.data.read()
+        if message == '' and file != b'':
+            format = form.pic.data.filename[-4:]
+            message_model.message = '/' + IMG_DIRECTORY + save_img(file, format)
+            message_model.chat_id = chat_id
+            message_model.type = 'img'
+            session.add(message_model)
+            session.commit()
+        if message != '':
+            message_model.message = message
+            message_model.chat_id = chat_id
+            message_model.type = 'msg'
+            session.add(message_model)
+            session.commit()
         return redirect(f'/chats/{link}')
-    return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form)
+    return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form, chat_id=chat_id)
 
 
 # Функция для создания произвольного чата
@@ -66,8 +80,24 @@ def random_link():
 
 
 # Функция для получения сообщений чата
-def get_messages(link, chat_id):
-    return [elem['message'] for elem in get(f'http://127.0.0.1:8080/api/messages/{str(chat_id)}').json()['messages']]
+def get_messages(chat_id):
+    return [(elem['message'], elem['type']) for elem in get(f'http://127.0.0.1:8080/api/messages/{chat_id}').json()['messages']]
+
+
+# Функция для сохранения картинки из формы
+def save_img(img_data, format):
+    files = []
+    for elem in os.listdir(IMG_DIRECTORY):
+        if format in elem:
+            files.append(elem)
+    if len(files) == 0:
+        filename = '1' + format
+    else:
+        filename = str(int(sorted(files)[-1][:-4]) + 1) + format
+    with BytesIO(img_data) as img_buf:
+        with Image.open(img_buf) as img:
+            img.save(f'{IMG_DIRECTORY}{filename}')
+            return filename
 
 
 def main():

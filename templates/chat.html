@@ -2,18 +2,28 @@
 
 {% block content %}
     <h1>Сообщения</h1>
+    <script>var chat_id = {{ chat_id }};</script>
     <form class="mb-3 " id="text_message" action="" method="post" enctype="multipart/form-data">
-        <div class="mb-1 container border border-3 rounded" style="height: 75%">
+        <div id="chat_box" class="mb-1 container border border-3 rounded" style="height: 75%">
             {% for item in list_msg %}
-                <h4 class="message rounded bg-info w-25 container" style="margin-top: 8px;padding-bottom: 5px;margin-left: 5px">{{ item }}</h4>
+                {% if item[1] == "msg" %}
+                    <h4 class="message rounded bg-info w-25 container">{{ item[0] }}</h4>
+                {% elif item[1] == "img" %}
+                    <h4><img src="{{ item[0] }}" alt="кролик" class="message rounded bg-info w-25 container" style="margin-top: 8px;padding-bottom: 5px;margin-left: 5px"></h4>
+                {% endif %}
             {% endfor %}
         </div>
             <p>
                 {{ form.text(class="form-control border border-2 rounded w-75") }}
             </p>
             <p>
+                {{ form.pic(class="form-control border border-2 rounded w-75")}}
+            </p>
+            <p>
                 {{ form.hidden_tag() }}
                 {{ form.submit(type="submit", class="btn border border-2 rounded w-75") }}
             </p>
+<!--            <p><img src="{{ url_for('static', filename='img/BRUH.jpg') }}" alt="кролик" class="message rounded bg-info w-25 container" style="margin-top: 8px;padding-bottom: 5px;margin-left: 5px"></p>-->
     </form>
+    <script src="{{ url_for('static', filename='script/script.js') }}"></script>
 {% endblock %}
