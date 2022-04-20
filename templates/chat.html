@@ -3,6 +3,15 @@
 {% block content %}
     <h1>Сообщения</h1>
     <script>var chat_id = {{ chat_id }};</script>
+<div class="footer">
+        <table>
+        <td>По всем вопросам обращайтесь в компанию ДЕД ПИХТО И Co.,</td>
+        <tr><td><img src="static/css/images/Logo1.png"></td></tr>
+        <tr><td>где на вас скорее всего забьют спустя секунду.</td></tr>
+        <tr><td>Телефон: какие-то 11 цифр</td></tr>
+        <tr><td>И ещё: все права не защищены.</td></tr>
+        </table>
+</div>
 <form class="chat_box" id="text_message" action="" method="post" enctype="multipart/form-data">
         <div id="chat_box" class="mb-1 container border_color border border-3 rounded" style="height: 75%">
             {% for item in list_msg %}

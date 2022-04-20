@@ -5,10 +5,10 @@ background-image: url(images/fon.jpg)
 h1 {
 text-align: center;
 color: purple;
-font: Tahoma;
+font-family: Tahoma;
 background-color: #6600ff;
-margin-left: 100px;
-margin-right: 100px;
+margin-left: 300px;
+margin-right: 300px;
 height: 60px;
 border-radius: 10px;
 }
@@ -16,7 +16,7 @@ border-radius: 10px;
 h2 {
 text-align: center;
 color: #6600ff;
-font: Arial;
+font-family: Tahoma;
 margin: 100px;
 }
 
@@ -25,14 +25,18 @@ text-align: left;
 }
 
 .logo {
-margin-right: 100px;
+width: 100px;
+float: left;
+background-color: #6600ff;
+border-radius: 10px;
 }
 
 .chat_box {
-border-color: purplel;
+border-color: purple;
 margin: 100px;
 text-align: center;
 background-color: #6600ff;
+width: 1000px;
 }
 
 .button_color {
@@ -41,6 +45,19 @@ background-color: purple;
 
 .border_color {
 border-color: purple;
+}
+
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+padding: 10px;
+background-color: #3d0099;
+opacity: 0.8;
+color: purple;
+font-size: 25px;
+font-family: Tahoma;
+width: 100%;
 }
 
 .message {

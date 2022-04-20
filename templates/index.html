@@ -1,10 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="#logo"><img src="/static/css/images/logo.png"></div>
+<div class="logo"><img src="/static/css/images/logo.png" width="100px" height="100px"></div>
 <h1>Добро пожаловать на сайт для анонимного общения!</h1>
-<h2>Нажми сюда, чтобы начать</h2>
+<h2>Нажмите сюда, чтобы начать</h2>
 <center><img src="/static/css/images/arrow_down.gif" width="100 px" height="100 px"></center>
+<div class="footer">
+        <table>
+        <td>По всем вопросам обращайтесь в компанию ДЕД ПИХТО И Co.,</td>
+        <tr><td><img src="static/css/images/Logo1.png"></td></tr>
+        <tr><td>где на вас скорее всего забьют спустя секунду.</td></tr>
+        <tr><td>Телефон: какие-то 11 цифр</td></tr>
+        <tr><td>И ещё: все права не защищены.</td></tr>
+        </table>
+</div>
 <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>{{ form.submit(type="submit", class="btn btn-primary position-absolute top-50 start-50 translate-middle") }}</p>
