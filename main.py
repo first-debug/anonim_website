@@ -9,6 +9,7 @@ from data.messages import Messages
 from forms.chat_form import ChatForm
 from forms.main_form import MainForm
 from data.chat_resources import MessageResources
+from data.message_del_resource import MessageDelResources
 from data.chats import Chats
 from data import db_session
 from requests import get
@@ -102,6 +103,7 @@ def save_img(img_data, format):
 
 def main():
     api.add_resource(MessageResources, '/api/messages/<int:chat_id>')
+    api.add_resource(MessageDelResources, '/api/message/<int:msg_id>')
     app.run(host='127.0.0.1', port=8080, debug=True)
 
 
