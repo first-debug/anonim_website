@@ -1,12 +1,12 @@
 body {
+text-align: center;
 background-image: url(images/fon.jpg)
 }
 
 h1 {
 text-align: center;
-color: purple;
+color: green;
 font-family: Tahoma;
-background-color: #6600ff;
 margin-left: 300px;
 margin-right: 300px;
 height: 60px;
@@ -21,7 +21,6 @@ margin: 100px;
 }
 
 h4{
-text-align: left;
 }
 
 .logo {
@@ -31,12 +30,20 @@ background-color: #6600ff;
 border-radius: 10px;
 }
 
+.btn-remove{
+height: 45px;
+width: 45px;
+text-align: center;
+display: block;
+margin: 0 auto;
+}
+
 .chat_box {
 border-color: purple;
 margin: 100px;
 text-align: center;
-background-color: #6600ff;
 width: 1000px;
+display: inline-block;
 }
 
 .button_color {
@@ -47,14 +54,26 @@ background-color: purple;
 border-color: purple;
 }
 
+.btnar{
+display: inline-block;
+}
+
+.textar{
+display: inline-block;
+}
+
+.picar{
+display: inline-block;
+}
+
 .footer {
 position: fixed;
 left: 0;
 bottom: 0;
 padding: 10px;
-background-color: #3d0099;
+background-color: #C0C0C0;
 opacity: 0.8;
-color: purple;
+color: gray;
 font-size: 25px;
 font-family: Tahoma;
 width: 100%;
@@ -64,4 +83,7 @@ width: 100%;
 margin-top: 8px;
 padding-bottom: 5px;
 margin-left: 5px;
+text-align: center;
+display: block;
+margin: 0 auto;
 }
