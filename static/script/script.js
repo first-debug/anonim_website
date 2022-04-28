@@ -5,14 +5,14 @@ function update_chat() {
             var h4;
             if (element.type == 'msg') {
                 h4 = jQuery('<h4>', {
-                    class: 'message rounded bg-info w-25 container',
+                    class: 'message rounded button_color w-25 container',
                     text: element.message,
                 }).appendTo('#chat_box');
             }
             else {
                 h4 = jQuery('<h4>');
                 jQuery('<img>', {
-                    class: 'message rounded w-25 container bg-opacity-10',
+                    class: 'button_color rounded w-25 container bg-opacity-10',
                     src: element.message,
                     alt: ''
                 }).appendTo(h4);

@@ -41,7 +41,8 @@ border-radius: 10px;
 }
 
 .button_color {
-background-color: purple;
+background-color: #8533ff;
+color: purple;
 }
 
 .border_color {
@@ -59,6 +60,13 @@ color: purple;
 font-size: 25px;
 font-family: Tahoma;
 width: 100%;
+}
+
+.btn-remove {
+background-image: url(/static/css/images/delete.png);
+background-repeat: no repeat;
+width: 24px;
+height: 24px;
 }
 
 .message {
