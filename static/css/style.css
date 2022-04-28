@@ -36,7 +36,8 @@ border-color: purple;
 margin: 100px;
 text-align: center;
 background-color: #6600ff;
-width: 1000px;
+width: 1200px;
+border-radius: 10px;
 }
 
 .button_color {

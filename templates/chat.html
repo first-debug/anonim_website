@@ -6,12 +6,13 @@
 <div class="footer">
         <table>
         <td>По всем вопросам обращайтесь в компанию ДЕД ПИХТО И Co.,</td>
-        <tr><td><img src="static/css/images/Logo1.png"></td></tr>
+        <tr><td><img src="/static/css/images/Logo1.png"></td></tr>
         <tr><td>где на вас скорее всего забьют спустя секунду.</td></tr>
         <tr><td>Телефон: какие-то 11 цифр</td></tr>
         <tr><td>И ещё: все права не защищены.</td></tr>
         </table>
 </div>
+<center>
 <form class="chat_box" id="text_message" action="" method="post" enctype="multipart/form-data">
         <div id="chat_box" class="mb-1 container border_color border border-3 rounded" style="height: 75%">
             {% for item in list_msg %}
@@ -23,10 +24,10 @@
             {% endfor %}
         </div>
             <p>
-                {{ form.text(class="form-control border border-2 rounded w-75") }}
+                {{ form.text(class=" container form-control border border-2 rounded w-75") }}
             </p>
             <p>
-                {{ form.pic(class="form-control border border-2 rounded w-75")}}
+                {{ form.pic(class=" container form-control border border-2 rounded w-75")}}
             </p>
             <p>
                 {{ form.hidden_tag() }}
@@ -34,5 +35,6 @@
             </p>
 <!--            <p><img src="{{ url_for('static', filename='img/BRUH.jpg') }}" alt="кролик" class="message rounded bg-info w-25 container" style="margin-top: 8px;padding-bottom: 5px;margin-left: 5px"></p>-->
     </form>
+    </center>
     <script src="{{ url_for('static', filename='script/script.js') }}"></script>
 {% endblock %}
