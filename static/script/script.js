@@ -1,13 +1,13 @@
 function update_chat() {
-    $('#chat_box').empty();
     $.getJSON( "/api/messages/" + chat_id, function( data ) {
+         var container = jQuery('<div>');
          data.messages.forEach((element) => {
             var h4;
             if (element.type == 'msg') {
                 h4 = jQuery('<h4>', {
                     class: 'message rounded button_color w-25 container',
                     text: element.message,
-                }).appendTo('#chat_box');
+                }).appendTo(container);
             }
             else {
                 h4 = jQuery('<h4>');
@@ -16,7 +16,7 @@ function update_chat() {
                     src: element.message,
                     alt: ''
                 }).appendTo(h4);
-                h4.appendTo('#chat_box');
+                h4.appendTo(container);
             }
             h4.append(`<button class="btn-remove" data-id=${element.id}></button>`);
         });
@@ -28,6 +28,8 @@ function update_chat() {
                 type: 'DELETE'
             });
         })
+        $('#chat_box').empty();
+        container.appendTo('#chat_box');
     });
 }
 setInterval(update_chat, 1000);

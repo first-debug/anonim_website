@@ -75,7 +75,8 @@ def random_link():
         link = sample(s, 8)
         for elem in chat:
             if elem.link == link:
-                k += 1
+                k = 1
+                break
         if k == 0:
             return ''.join(link)
 
