@@ -1,8 +1,8 @@
 import os.path
+import uuid
 from io import BytesIO
 from PIL import Image
 from flask import Flask, render_template, make_response, jsonify, redirect, request, url_for
-from random import sample
 from flask_restful import Api
 
 from data.messages import Messages
@@ -26,7 +26,7 @@ IMG_DIRECTORY = 'static/img/'
 def index():
     form = MainForm()
     if form.validate_on_submit():
-        link = random_link()
+        link = str(uuid.uuid4())
         chat = Chats()
         chat.link = link
         session.add(chat)
@@ -64,21 +64,6 @@ def chats(link):
             session.commit()
         return redirect(f'/chats/{link}')
     return render_template('chat.html', list_msg=list_msg, title='Чат инкогнито', form=form, chat_id=chat_id)
-
-
-# Функция для создания произвольного чата
-def random_link():
-    chat = session.query(Chats).all()
-    s = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
-    while True:
-        k = 0
-        link = sample(s, 8)
-        for elem in chat:
-            if elem.link == link:
-                k = 1
-                break
-        if k == 0:
-            return ''.join(link)
 
 
 # Функция для получения сообщений чата
