@@ -2,6 +2,11 @@ body {
 background-image: url(images/fon.jpg)
 }
 
+.btn-remove{
+width: 35px;
+height: 35px;
+}
+
 h1 {
 text-align: center;
 color: purple;

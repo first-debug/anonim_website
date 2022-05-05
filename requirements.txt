@@ -1,0 +1,5 @@
+SQLAlchemy==1.4.36
+Flask==2.1.2
+WTForms==3.0.1
+Pillow==9.1.0
+requests==2.27.1
